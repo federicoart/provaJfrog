@@ -3,9 +3,8 @@ trigger:
     include:
       - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
+pool: 'fedeWSL'
+ 
 steps:
   - task: JFrogDocker@1
     displayName: 'Push Docker image to JFrog Artifactory'
