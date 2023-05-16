@@ -1,5 +1,6 @@
 trigger:
 
+
   branches:
     include:
       - main
@@ -7,6 +8,13 @@ trigger:
 pool: 'fedeWSL'
  
 steps:
+  - task: Docker@2
+    inputs:
+    containerRegistry: 'JFrog Registry'
+    repository: 'prova2'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+
   - task: JFrogDocker@1
     displayName: 'Push Docker image to JFrog Artifactory'
     inputs:
