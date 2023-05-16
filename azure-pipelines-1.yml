@@ -1,33 +1,32 @@
-# Starter pipeline
-- task: JFrogDocker@1
-  inputs:
-    command: 'Push'
-    artifactoryConnection: 'prova2'
-    imageName: 'https://a0muixhnkluno.jfrog.io/artifactory/prova2/'
-    threads: '3'
-    skipLogin: true
-
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool: 'fedeWSL'
+pool:
+  vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-- task: JFrogDocker@1
- - task: JFrogDocker@1
-  inputs:
-    command: 'Push'
-    artifactoryConnection: 'prova2'
-    imageName: 'https://a0muixhnkluno.jfrog.io/artifactory/prova2/'
-    threads: '3'
-    skipLogin: true
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: JFrogDocker@1
+    displayName: 'Push Docker image to JFrog Artifactory'
+    inputs:
+      command: 'Push'
+      artifactoryConnection: 'prova2'
+      imageName: 'prova2/image-name:tag'
+      collectBuildInfo: true
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+      threads: '3'
+      skipLogin: false
+
+  - task: JFrogDocker@1
+    displayName: 'Pull Docker image from JFrog Artifactory'
+    inputs:
+      command: 'Pull'
+      artifactoryConnection: 'prova2'
+      imageName: 'prova2/image-name:tag'
+      collectBuildInfo: true
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+      projectKey: 'prova2'
+      skipLogin: false
