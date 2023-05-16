@@ -4,17 +4,19 @@ trigger:
       - main
 
 pool:
-  name: fedeWSL
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: Docker@2
     displayName: 'Build and Push Docker image'
     inputs:
-      containerRegistry: 'JFrog Registry'
-      repository: 'prova2'
+      containerRegistry: 'prova2'
+      repository: 'https://a0muixhnkluno.jfrog.io/artifactory/prova2/'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
-
+      tags: |
+        tag1
+        tag2
   - task: JFrogDocker@1
     displayName: 'Push Docker image to JFrog Artifactory'
     inputs:
