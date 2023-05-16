@@ -1,30 +1,38 @@
 trigger:
-
-
   branches:
     include:
       - main
 
-pool: 'fedeWSL'
- 
+pool:
+  name: fedeWSL
+
 steps:
+  - task: Docker@2
+    displayName: 'Build and Push Docker image'
+    inputs:
+      containerRegistry: 'JFrog Registry'
+      repository: 'prova2'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+
   - task: JFrogDocker@1
     displayName: 'Push Docker image to JFrog Artifactory'
     inputs:
-      command: 'buildAndPush'
+      command: 'Push'
       artifactoryConnection: 'prova2'
-      imageName: 'prova2/image-name:tag'
+      imageName: 'prova2/nginx:latest'
       collectBuildInfo: true
       buildName: '$(Build.DefinitionName)'
       buildNumber: '$(Build.BuildNumber)'
       threads: '3'
       skipLogin: false
 
-  - task: ArtifactoryDocker@1
+  - task: JFrogDocker@1
+    displayName: 'Pull Docker image from JFrog Artifactory'
     inputs:
-    command: 'pull'
-    artifactoryService: 'JFrog Andrea Registry'
-    sourceRepo: 'prova2'
-    collectBuildInfo: true
-    buildName: '$(Build.DefinitionName)'
-    buildNumber: '$(Build.BuildNumber)'
+      command: 'Pull'
+      artifactoryConnection: 'prova2'
+      imageName: 'prova2/nginx:latest'
+      collectBuildInfo: true
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
