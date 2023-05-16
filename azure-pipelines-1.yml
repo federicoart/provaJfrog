@@ -1,4 +1,11 @@
 # Starter pipeline
+- task: JFrogDocker@1
+  inputs:
+    command: 'Push'
+    artifactoryConnection: 'prova2'
+    imageName: 'https://a0muixhnkluno.jfrog.io/artifactory/prova2/'
+    threads: '3'
+    skipLogin: true
 
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
@@ -13,14 +20,13 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 - task: JFrogDocker@1
+ - task: JFrogDocker@1
   inputs:
-    command: 'Pull'
+    command: 'Push'
     artifactoryConnection: 'prova2'
     imageName: 'https://a0muixhnkluno.jfrog.io/artifactory/prova2/'
-    collectBuildInfo: true
-    buildName: '$(Build.DefinitionName)'
-    buildNumber: '$(Build.BuildNumber)'
-    skipLogin: false
+    threads: '3'
+    skipLogin: true
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
