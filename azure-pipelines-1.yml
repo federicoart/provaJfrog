@@ -19,17 +19,6 @@ steps:
       threads: '3'
       skipLogin: false
 
-  - task: JFrogDocker@1
-    displayName: 'Pull Docker image from JFrog Artifactory'
-    inputs:
-      command: 'Pull'
-      artifactoryConnection: 'prova2'
-      imageName: 'prova2/image-name:tag'
-      collectBuildInfo: true
-      buildName: '$(Build.DefinitionName)'
-      buildNumber: '$(Build.BuildNumber)'
-      projectKey: 'prova2'
-      skipLogin: false
   - task: ArtifactoryDocker@1
     inputs:
     command: 'pull'
