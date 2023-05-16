@@ -10,7 +10,7 @@ steps:
   - task: Docker@2
     displayName: 'Build and Push Docker image'
     inputs:
-      containerRegistry: 'prova2'
+      containerRegistry: 'JFrog Registry'
       repository: 'https://a0muixhnkluno.jfrog.io/artifactory/prova2/'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
